@@ -20,8 +20,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -50,13 +48,12 @@ class Wrapper extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Loading();
           }
-
           if (!snapshot.hasData) {
-            return const LoginApp();
+            // return const LoginApp();
+            return const MyHomePage();
+
           }
-
           return const MyHomePage();
-
         },
       ),
     );
@@ -122,8 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: const EdgeInsets.only(top: 10),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.black,
-                        onPrimary: const Color.fromRGBO(255, 189, 66, 1),
+                        foregroundColor: const Color.fromRGBO(255, 189, 66, 1), primary: Colors.black,
                         shadowColor: const Color.fromRGBO(255, 189, 66, 1),
                         elevation: 10,
                         shape: RoundedRectangleBorder(
@@ -157,8 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: const EdgeInsets.only(top: 10),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.black,
-                        onPrimary: const Color.fromRGBO(255, 189, 66, 1),
+                        foregroundColor: const Color.fromRGBO(255, 189, 66, 1), primary: Colors.black,
                         shadowColor: const Color.fromRGBO(255, 189, 66, 1),
                         elevation: 10,
                         shape: RoundedRectangleBorder(

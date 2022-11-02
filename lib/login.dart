@@ -1,14 +1,11 @@
-import 'dart:async';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:read_aloud/loading.dart';
 import 'package:read_aloud/provider/sign_in.dart';
-import 'package:firebase_core/firebase_core.dart';
 
-import 'loading.dart';
 
 class LoginApp extends StatefulWidget {
   const LoginApp({Key? key}) : super(key: key);
@@ -18,7 +15,6 @@ class LoginApp extends StatefulWidget {
 }
 
 class _LoginAppState extends State<LoginApp> {
-  late Timer _timer;
   var msgList = ['Read', 'Translate', 'Summarize', 'Scan Docs'];
   int msgIndex = 0;
 
@@ -32,14 +28,6 @@ class _LoginAppState extends State<LoginApp> {
 
   @override
   void initState() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        msgIndex++;
-        if (msgIndex > 3) {
-          msgIndex = 0;
-        }
-      });
-    });
 
     super.initState();
   }
@@ -114,12 +102,12 @@ class _LoginAppState extends State<LoginApp> {
                 right: 0,
                 height: height / 1.82,
                 child: Container(
-                  padding: EdgeInsets.only(bottom: 20),
+                  padding: const EdgeInsets.only(bottom: 20),
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.only(
                         bottomRight: Radius.circular(50),
                         bottomLeft: Radius.circular(50)),
-                    color: Color.fromRGBO(255, 189, 66, 1).withOpacity(0.34),
+                    color: const Color.fromRGBO(255, 189, 66, 1).withOpacity(0.34),
                   ),
                   child: const Align(
                     alignment: Alignment.bottomCenter,
@@ -141,20 +129,20 @@ class _LoginAppState extends State<LoginApp> {
                     borderRadius: const BorderRadius.only(
                         bottomRight: Radius.circular(50),
                         bottomLeft: Radius.circular(50)),
-                    color: Color.fromRGBO(255, 189, 66, 1).withOpacity(0.5),
+                    color: const Color.fromRGBO(255, 189, 66, 1).withOpacity(0.5),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(height: 50),
+                      const SizedBox(height: 50),
                       const Text("ReadAloud",
                           style: TextStyle(
                               fontSize: 70.0,
                               color: Color.fromRGBO(55, 55, 55, 1),
                               fontFamily: 'Hubballi',
                               fontWeight: FontWeight.w200)),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       const Text("• READ •\n• SUMMARIZE •\n• TRANSLATE •",
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -170,7 +158,7 @@ class _LoginAppState extends State<LoginApp> {
                           //pause: Duration(seconds: 1),
                           animatedTexts: [
                             FadeAnimatedText('◈ TRANSLATE ◈',
-                                duration: Duration(seconds: 2),
+                                duration: const Duration(seconds: 2),
                                 textStyle: const TextStyle(
                                     fontSize: 23.0,
                                     color: Color.fromRGBO(55, 55, 55, 1),
@@ -178,7 +166,7 @@ class _LoginAppState extends State<LoginApp> {
                                     letterSpacing: 2,
                                     fontWeight: FontWeight.w600)),
                             FadeAnimatedText('◈ SUMMARIZE ◈',
-                                duration: Duration(seconds: 2),
+                                duration: const Duration(seconds: 2),
                                 textStyle: const TextStyle(
                                     fontSize: 23.0,
                                     color: Color.fromRGBO(55, 55, 55, 1),
@@ -186,7 +174,7 @@ class _LoginAppState extends State<LoginApp> {
                                     letterSpacing: 2,
                                     fontWeight: FontWeight.w600)),
                             FadeAnimatedText('◈ SCAN DOCS ◈',
-                                duration: Duration(seconds: 2),
+                                duration: const Duration(seconds: 2),
                                 textStyle: const TextStyle(
                                     fontSize: 23.0,
                                     color: Color.fromRGBO(55, 55, 55, 1),
@@ -223,10 +211,9 @@ class _LoginAppState extends State<LoginApp> {
                       SizedBox(height: height * 0.04),
                       ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(270, 55),
+                            minimumSize: const Size(270, 55), backgroundColor: const Color.fromRGBO(255, 189, 66, 0.7),
                             elevation: 10.0,
                             padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                            primary: const Color.fromRGBO(255, 189, 66, 0.7),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             )),
@@ -235,7 +222,9 @@ class _LoginAppState extends State<LoginApp> {
 
                           bool status = await AuthService().googleLogIn();
                           if (status == false) {
-                            print("issue - unable signing in");
+                            if (kDebugMode) {
+                              print("issue - unable signing in");
+                            }
                           }
 
                           setState(() => isLoading = false);

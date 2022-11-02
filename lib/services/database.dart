@@ -9,10 +9,9 @@ class DatabaseServices {
 
   final CollectionReference userDataColl = FirebaseFirestore.instance.collection('userData');
 
-  Future updateUserData(List<String> date, List<String> datapoints) async {
+  Future updateUserData(List<String> date) async {
     return await userDataColl.doc(uid).set({
       'date' : date,
-      'dtime,points' : datapoints,
     });
   }
 

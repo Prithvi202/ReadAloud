@@ -6,8 +6,6 @@ class AuthService
 {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // login with google [Future bool method] {bool value helps create the login screen}
-
   Future<bool> googleLogIn() async {
     try
     {
@@ -25,7 +23,7 @@ class AuthService
       if (res.additionalUserInfo!.isNewUser)
       {
         print("new user detected");
-        await DatabaseServices(uid: user!.uid).updateUserData(<String>[], <String>[]);
+        await DatabaseServices(uid: user!.uid).updateUserData(<String>[]);
       }
 
       if (res.user == null) return false;
