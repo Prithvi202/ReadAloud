@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "465645306723",
+    "project_id": "readaloud-559a8",
+    "storage_bucket": "readaloud-559a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465645306723:android:9c932be521bcf7843fc956",
+        "android_client_info": {
+          "package_name": "com.readaloud.read_aloud"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "465645306723-g0lnpl6c3pinegff7irfagmeuopgj3q9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtqXf6vpgZdxmpz81xeUGrXaU9yDUg3LQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "465645306723-g0lnpl6c3pinegff7irfagmeuopgj3q9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

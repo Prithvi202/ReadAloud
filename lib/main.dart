@@ -5,14 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 
 import 'loading.dart';
 import 'login.dart';
 
-
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -85,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: const Text(
           "ReadAloud",
           style: TextStyle(
-            fontFamily: 'Montserrat',
+            fontFamily: 'Hubballi-Regular',
             fontSize: 36.0,
             color: Color.fromRGBO(255, 189, 66, 1),
             fontWeight: FontWeight.bold,
@@ -212,7 +216,7 @@ class _MyHomePageState extends State<MyHomePage> {
     } catch (e) {
       textScanning = false;
       imageFile = null;
-      scannedText = "Error occured while scanning";
+      scannedText = "Error occurred while scanning";
       setState(() {});
     }
   }

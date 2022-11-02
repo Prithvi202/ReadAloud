@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:read_aloud/loading.dart';
+import 'package:read_aloud/provider/sign_in.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'loading.dart';
 
@@ -89,14 +92,14 @@ class _LoginAppState extends State<LoginApp> {
                 right: 0,
                 height: height / 1.55,
                 child: Container(
-                  padding: EdgeInsets.only(bottom: 20),
+                  padding: const EdgeInsets.only(bottom: 20),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                         bottomRight: Radius.circular(50),
                         bottomLeft: Radius.circular(50)),
-                    color: Color.fromRGBO(255, 189, 66, 1).withOpacity(0.3),
+                    color: const Color.fromRGBO(255, 189, 66, 1).withOpacity(0.3),
                   ),
-                  child: Align(
+                  child: const Align(
                     alignment: Alignment.bottomCenter,
                     child: Text("あ Б δ এ A",
                         style: TextStyle(
@@ -113,12 +116,12 @@ class _LoginAppState extends State<LoginApp> {
                 child: Container(
                   padding: EdgeInsets.only(bottom: 20),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                         bottomRight: Radius.circular(50),
                         bottomLeft: Radius.circular(50)),
                     color: Color.fromRGBO(255, 189, 66, 1).withOpacity(0.34),
                   ),
-                  child: Align(
+                  child: const Align(
                     alignment: Alignment.bottomCenter,
                     child: Text("あ Б δ এ A",
                         style: TextStyle(
@@ -135,7 +138,7 @@ class _LoginAppState extends State<LoginApp> {
                 height: height / 2.25,
                 child: Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                         bottomRight: Radius.circular(50),
                         bottomLeft: Radius.circular(50)),
                     color: Color.fromRGBO(255, 189, 66, 1).withOpacity(0.5),
@@ -145,14 +148,14 @@ class _LoginAppState extends State<LoginApp> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(height: 50),
-                      Text("ReadAloud",
+                      const Text("ReadAloud",
                           style: TextStyle(
                               fontSize: 70.0,
                               color: Color.fromRGBO(55, 55, 55, 1),
                               fontFamily: 'Hubballi',
                               fontWeight: FontWeight.w200)),
                       SizedBox(height: 15),
-                      Text("• READ •\n• SUMMARIZE •\n• TRANSLATE •",
+                      const Text("• READ •\n• SUMMARIZE •\n• TRANSLATE •",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontSize: 18.0,
@@ -161,14 +164,14 @@ class _LoginAppState extends State<LoginApp> {
                               letterSpacing: 5,
                               fontWeight: FontWeight.w600)),
                       SizedBox(
-                        height: 25,
+                        height: 35,
                         child: AnimatedTextKit(
                           repeatForever: true,
                           //pause: Duration(seconds: 1),
                           animatedTexts: [
                             FadeAnimatedText('◈ TRANSLATE ◈',
                                 duration: Duration(seconds: 2),
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     fontSize: 23.0,
                                     color: Color.fromRGBO(55, 55, 55, 1),
                                     fontFamily: 'Hubballi',
@@ -176,7 +179,7 @@ class _LoginAppState extends State<LoginApp> {
                                     fontWeight: FontWeight.w600)),
                             FadeAnimatedText('◈ SUMMARIZE ◈',
                                 duration: Duration(seconds: 2),
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     fontSize: 23.0,
                                     color: Color.fromRGBO(55, 55, 55, 1),
                                     fontFamily: 'Hubballi',
@@ -184,7 +187,7 @@ class _LoginAppState extends State<LoginApp> {
                                     fontWeight: FontWeight.w600)),
                             FadeAnimatedText('◈ SCAN DOCS ◈',
                                 duration: Duration(seconds: 2),
-                                textStyle: TextStyle(
+                                textStyle: const TextStyle(
                                     fontSize: 23.0,
                                     color: Color.fromRGBO(55, 55, 55, 1),
                                     fontFamily: 'Hubballi',
@@ -209,9 +212,9 @@ class _LoginAppState extends State<LoginApp> {
                     children: [
                       SizedBox(height: height * 0.04),
                       Shimmer.fromColors(
-                          baseColor: Color.fromRGBO(255, 189, 66, 1),
+                          baseColor: const Color.fromRGBO(255, 189, 66, 1),
                           highlightColor: Colors.grey[100]!,
-                          child: Text("SIGN IN TO CONTINUE",
+                          child: const Text("SIGN IN TO CONTINUE",
                               style: TextStyle(
                                   fontSize: 25.0,
                                   letterSpacing: 2.0,
@@ -220,23 +223,30 @@ class _LoginAppState extends State<LoginApp> {
                       SizedBox(height: height * 0.04),
                       ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
-                            minimumSize: Size(270, 55),
+                            minimumSize: const Size(270, 55),
                             elevation: 10.0,
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
-                            primary: Color.fromRGBO(255, 189, 66, 0.7),
+                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                            primary: const Color.fromRGBO(255, 189, 66, 0.7),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             )),
                         onPressed: () async {
-                          // function to be added down here..
+                          setState(() => isLoading = true);
+
+                          bool status = await AuthService().googleLogIn();
+                          if (status == false) {
+                            print("issue - unable signing in");
+                          }
+
+                          setState(() => isLoading = false);
                         },
-                        label: Text(" SIGN IN WITH GOOGLE",
+                        label: const Text(" SIGN IN WITH GOOGLE",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20.0,
                                 fontFamily: 'Hubballi',
                                 fontWeight: FontWeight.w700)),
-                        icon: FaIcon(FontAwesomeIcons.google,
+                        icon: const FaIcon(FontAwesomeIcons.google,
                             color: Colors.black),
                       )
                     ],
